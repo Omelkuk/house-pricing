@@ -1,0 +1,14 @@
+pandas
+numpy
+matplotlib
+plotly
+scikit-learn
+xgboost
+lightgbm
+catboost
+optuna
+torch
+pyyaml
+ipywidgets
+mlflow
+

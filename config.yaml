@@ -1,0 +1,60 @@
+base:
+  seed: 42
+  target: "SalePrice"
+  train_data: "data/train.csv"
+  test_size: 0.2
+  log_dir: "results"
+  experiment_name: "Final_Project_v1"
+
+# НАСТРОЙКИ OPTUNA
+run:
+  model_name: "ridge"  
+  n_trials: 5          
+  metrics: "rmse"         
+
+# МОДЕЛИ И ГИПЕРПАРАМЕТРЫ
+
+models:
+  ridge:
+    alpha: ["float", 0.1, 100.0, {log: true}]
+  
+  lasso:
+    alpha: ["float", 0.0001, 1.0, {log: true}]
+  
+  elastic_net:
+    alpha: ["float", 0.0001, 1.0, {log: true}]
+    l1_ratio: ["float", 0.0, 1.0]
+
+  xgboost:
+    n_estimators: ["int", 100, 800]
+    learning_rate: ["float", 0.005, 0.1, {log: true}]
+    max_depth: ["int", 3, 10]
+    subsample: ["float", 0.6, 1.0]
+    colsample_bytree: ["float", 0.6, 1.0]
+    min_child_weight: ["int", 1, 10]
+    n_jobs: -1
+    random_state: 42
+
+  lightgbm:
+    n_estimators: ["int", 500, 3000]
+    learning_rate: ["float", 0.005, 0.1, {log: true}]
+    num_leaves: ["int", 20, 150]
+    max_depth: ["int", -1, 15]
+    subsample: ["float", 0.6, 1.0]
+    colsample_bytree: ["float", 0.6, 1.0]
+    n_jobs: 1
+    random_state: 42
+    verbose: -1
+
+  catboost:
+    iterations: ["int", 200, 1000]
+    learning_rate: ["float", 0.005, 0.1, {log: true}]
+    depth: ["int", 4, 10]
+    l2_leaf_reg: ["int", 1, 10]
+    verbose: 0
+    random_state: 42
+    thread_count: -1
+  
+ensemble:
+  models: ["catboost", "lightgbm", "ridge"]
+  weights: [0.5, 0.3, 0.2]
